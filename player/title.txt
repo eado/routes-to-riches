@@ -1,0 +1,14 @@
+  _____             _              _          _____  _      _               
+ |  __ \           | |            | |        |  __ \(_)    | |              
+ | |__) |___  _   _| |_ ___  ___  | |_ ___   | |__) |_  ___| |__   ___  ___ 
+ |  _  // _ \| | | | __/ _ \/ __| | __/ _ \  |  _  /| |/ __| '_ \ / _ \/ __|
+ | | \ \ (_) | |_| | ||  __/\__ \ | || (_) | | | \ \| | (__| | | |  __/\__ \
+ |_|  \_\___/ \__,_|\__\___||___/  \__\___/  |_|  \_\_|\___|_| |_|\___||___/
+                                                                            
+                                                                            
+Welcome to Comcast! We are thrilled that you chose us as your employer. In
+order to complete orientation, we want to make sure that you're up to date with
+the latest trends in BGP routing. In this simulation, we ask you to properly
+advertise routes. 
+
+Press Enter to continue.
