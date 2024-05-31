@@ -127,14 +127,14 @@ export const getRandomData = (num, numCust) => {
 
 export const calcNewRevenue = (curAS, fromAS, toASes, customers, path, linkCosts) => {
     // Check for duplicates
-    if (path.indexOf(curAS) > -1) process.exit()
+    if (path.indexOf(curAS) > -1) return -20
     const s = new Set(path)
-    if (s.size < path.length) process.exit()
+    if (s.size < path.length) return -20
 
     let newRev = 0;
     const fromCust = customers.indexOf(fromAS) > -1
     for (let as of toASes) {
-        if (path.indexOf(as) > -1) process.exit()
+        if (path.indexOf(as) > -1) return -20
         if (customers.indexOf(as) > -1) { newRev += 10; } 
         if (fromCust) { newRev += 10; } 
         if (!fromCust && customers.indexOf(as) < 0) {
