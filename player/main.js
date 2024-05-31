@@ -92,7 +92,7 @@ const mainScreen = () => {
     revenue = 0;
     const routers = [];
     const used = [];
-    const [locs, _, customers, as, routes] = getRandomData(3, 2);
+    const [locs, _, customers, as, routes] = getRandomData(10, 4);
     for (let loc of locs) {
         const box = createBox(screen, "10%", "20%", `${loc[0]}%`, `${loc[1]}%`, `${loc[2]}\n\nAS ${loc[3]}`, "clear");
         routers.push(box);
