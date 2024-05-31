@@ -92,16 +92,17 @@ const mainScreen = () => {
     revenue = 0;
     const routers = [];
     const used = [];
-    const [locs, _, customers, as, routes] = getRandomData(10, 4);
+    const [locs, _, customers, as, routes, linkCosts] = getRandomData(10, 4);
     for (let loc of locs) {
         const box = createBox(screen, "10%", "20%", `${loc[0]}%`, `${loc[1]}%`, `${loc[2]}\n\nAS ${loc[3]}`, "clear");
         routers.push(box);
     }
 
-    createBox(screen, "15%", 5, 0, 0, `COMCAST: AS ${as}`, "red");
-    createBox(screen, "30%", 5, 0, "30%", `Customers: ${customers.map(x => "AS " + x).join(", ")}`, "clear");
-    const revenueBox = createBox(screen, "15%", 5, 0, "15%", `Revenue: $${revenue}K`, "green");
-    const routeBox = createBox(screen, "40%", 5, 0, "60%", `Route: ${customers.map(x => "AS " + x).join(", ")}`, "clear");
+    createBox(screen, "10%", 5, 0, 0, `COMCAST: AS ${as}`, "red");
+    const revenueBox = createBox(screen, "10%", 5, 0, "10%", `Revenue: $${revenue}K`, "green");
+    createBox(screen, "25%", 5, 0, "20%", `Customers: ${customers.map(x => "AS " + x).join(", ")}`, "clear");
+    const routeBox = createBox(screen, "40%", 5, 0, "45%", `Route: ${customers.map(x => "AS " + x).join(", ")}`, "clear");
+    const linkCostBox = createBox(screen, "15%", 5, 0, "85%", `Link Cost`, "blue");
     routeBox.style.border.fg = "green";
 
     // Update revenue
@@ -129,6 +130,8 @@ const mainScreen = () => {
         if (num == currentRouter) return;
         routers.forEach(x => x !== routers[currentRouter] ? x.style.border.fg = "white" : null)
         routers[num].style.border.fg = "blue"; 
+        
+        linkCostBox.content = `Link Cost: ${linkCosts[[locs[currentRouter][3], locs[num][3]]]}`
         currentSelect = num; 
         screen.render() 
     }
@@ -139,6 +142,7 @@ const mainScreen = () => {
         for (let select of selected) {
             routers[select].style.bg = used.indexOf(select) > -1 ? "red" : "clear";
         }
+        linkCostBox.content = "Link Cost"
         selected = [];
         currentSelect = currentRouter;
         currentlySelecting = !currentlySelecting;
@@ -152,7 +156,7 @@ const mainScreen = () => {
             screen.render()
         } else {
             if (selected.length > 0) {
-                revenue += calcNewRevenue(as, locs[currentRouter][3], selected.map(x => locs[x][3]), customers, routes[currentRouter][0])
+                revenue += calcNewRevenue(as, locs[currentRouter][3], selected.map(x => locs[x][3]), customers, routes[currentRouter][0], linkCosts)
                 updateRevenue();
                 wss.send(+revenue);
             } 

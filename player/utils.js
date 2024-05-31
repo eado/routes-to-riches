@@ -78,6 +78,7 @@ export const getRandomData = (num, numCust) => {
     let coords = [];
     let peers = [];
     let routes = [];
+    let linkCosts = {};
     for (let i = 0; i < num; i++) {
         const coord = getRandomCoordinate(coords);
 
@@ -111,10 +112,20 @@ export const getRandomData = (num, numCust) => {
         routes.push(getRoute(peers[i], curAs, customers, peers))
     }
 
-    return [locs, peers, customers, curAs, routes];
+    for (let i = 0; i < num; i++) {
+        for (let j = 0; j < num; j++) {
+            if ([j, i] in linkCosts) {
+                linkCosts[[locs[i][3], locs[j][3]]] = linkCosts[[locs[j][3], locs[i][3]]]
+            } else {
+                linkCosts[[locs[i][3], locs[j][3]]] = Math.floor(Math.random() * 19) + 1
+            }
+        }
+    }
+
+    return [locs, peers, customers, curAs, routes, linkCosts];
 }
 
-export const calcNewRevenue = (curAS, fromAS, toASes, customers, path) => {
+export const calcNewRevenue = (curAS, fromAS, toASes, customers, path, linkCosts) => {
     // Check for duplicates
     if (path.indexOf(curAS) > -1) process.exit()
     const s = new Set(path)
@@ -124,11 +135,12 @@ export const calcNewRevenue = (curAS, fromAS, toASes, customers, path) => {
     const fromCust = customers.indexOf(fromAS) > -1
     for (let as of toASes) {
         if (path.indexOf(as) > -1) process.exit()
-        if (customers.indexOf(as) > -1) { newRev += 1; } 
-        if (fromCust) { newRev += 1; } 
+        if (customers.indexOf(as) > -1) { newRev += 10; } 
+        if (fromCust) { newRev += 10; } 
         if (!fromCust && customers.indexOf(as) < 0) {
             newRev -= 1;
         }
+        newRev -= linkCosts[[fromAS, as]]
     }
     return newRev;
 }
