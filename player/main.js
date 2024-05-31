@@ -74,9 +74,9 @@ const waitScreen = () => {
     let boxText = "";
     if (revenue == 0) {
         boxText = "Did you even try?\nYou made $0K in revenue. Do better next time."
-    } else if (revenue < 10) {
-        boxText =`That was certainly an attempt.\nYou made $${revenue}K in revenue.`
     } else if (revenue < 20) {
+        boxText =`That was certainly an attempt.\nYou made $${revenue}K in revenue.`
+    } else if (revenue < 40) {
         boxText =`Pretty good.\nYou made $${revenue}K in revenue.`
     } else {
         boxText =`You're a pro!\nYou made $${revenue}K in revenue.`
